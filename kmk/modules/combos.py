@@ -36,6 +36,7 @@ class Combo:
         per_key_timeout=None,
         timeout=None,
         match_coord=None,
+        layers=None
     ):
         '''
         match: tuple of keys (KC.A, KC.B)
@@ -51,6 +52,8 @@ class Combo:
             self.timeout = timeout
         if match_coord is not None:
             self._match_coord = match_coord
+        if layers is not None:
+            self._layers = layers
 
     def __repr__(self):
         return f'{self.__class__.__name__}({list(self.match)})'
@@ -72,7 +75,9 @@ class Combo:
 
 
 class Chord(Combo):
-    def matches(self, key: Key, int_coord: int):
+    def matches(self, key: Key, int_coord: int, layer: int):
+        if self._layers and layer not in self._layers:
+            return False
         if not self._match_coord and key in self._remaining:
             self._remaining.remove(key)
             return True
@@ -88,7 +93,7 @@ class Sequence(Combo):
     per_key_timeout = True
     timeout = 1000
 
-    def matches(self, key: Key, int_coord: int):
+    def matches(self, key: Key, int_coord: int, layer: int):
         if (
             not self._match_coord and self._remaining and self._remaining[0] == key
         ) or (
@@ -145,7 +150,7 @@ class Combos(Module):
         for combo in self.combos:
             if combo._state != _ComboState.MATCHING:
                 continue
-            if combo.matches(key, int_coord):
+            if combo.matches(key, int_coord, keyboard.active_layers[0]):
                 continue
             combo._state = _ComboState.IDLE
             if combo._timeout:
