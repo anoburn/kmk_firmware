@@ -27,6 +27,7 @@ class Combo:
     _timeout = None
     _state = _ComboState.IDLE
     _match_coord = False
+    _layers = None
 
     def __init__(
         self,
