@@ -240,7 +240,7 @@ class Combos(Module):
                     continue
 
                 # Combo matches, but first key released before timeout.
-                elif len(combo._remaining) == 0 and self.match_count == 1:
+                if len(combo._remaining) == 0 and self.count_exact_matches() == 1:
                     keyboard.cancel_timeout(combo._timeout)
                     self.activate(keyboard, combo)
                     self._key_buffer = []
@@ -335,3 +335,10 @@ class Combos(Module):
         for combo in self.combos:
             if combo.state != _ComboState.ACTIVE:
                 self.reset_combo(keyboard, combo)
+
+    def count_exact_matches(self):
+        count = 0
+        for combo in self.combos:
+            if combo.state == _ComboState.MATCHING and len(combo._remaining) == 0:
+                count += 1
+        return count
