@@ -23,7 +23,6 @@ class Combo:
     fast_reset = False
     per_key_timeout = False
     timeout = 50
-    _remaining = []
     _timeout = None
     _state = _ComboState.IDLE
     _match_coord = False
@@ -51,6 +50,7 @@ class Combo:
             self.timeout = timeout
         if match_coord is not None:
             self._match_coord = match_coord
+        self._remaining = []
 
     @property
     def state(self):
