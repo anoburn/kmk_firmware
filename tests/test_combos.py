@@ -160,7 +160,7 @@ class TestCombo(unittest.TestCase):
         )
 
         keyboard.test(
-            'match: 2 combo, partial release and repeat',
+            'match: combo + other, partial release and repeat',
             [
                 (0, True),
                 (1, True),
@@ -172,11 +172,11 @@ class TestCombo(unittest.TestCase):
                 (0, False),
                 t_after,
             ],
-            [{KC.X}, {}, {KC.X}, {}],
+            [{KC.X}, {}, {KC.B}, {}],
         )
 
         keyboard.test(
-            'match: 2 combo, partial release and repeat',
+            'match: combo + combo, partial release and repeat',
             [
                 (0, True),
                 (2, True),
@@ -192,7 +192,7 @@ class TestCombo(unittest.TestCase):
                 (2, False),
                 t_after,
             ],
-            [{KC.Y}, {}, {KC.Y}, {}],
+            [{KC.Y}, {}, {KC.X}, {}],
         )
 
         keyboard.test(
@@ -296,7 +296,7 @@ class TestCombo(unittest.TestCase):
                 (0, False),
                 t_after,
             ],
-            [{KC.E}, {KC.E, KC.A}, {KC.E, KC.A, KC.B}, {KC.E, KC.A}, {KC.A}, {}],
+            [{KC.E}, {KC.E, KC.X}, {KC.E}, {}],
         )
 
         keyboard.test(
@@ -525,7 +525,7 @@ class TestCombo(unittest.TestCase):
                 (0, False),
                 t_after,
             ],
-            [{KC.Y}, {}, {KC.Y}, {}],
+            [{KC.Y}, {}, {KC.N2}, {KC.N2, KC.N1}, {KC.N1}, {}],
         )
 
         keyboard.test(
