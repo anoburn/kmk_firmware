@@ -25,6 +25,8 @@ class TestCombo(unittest.TestCase):
             Chord((KC.C, KC.D), KC.Z, timeout=2 * timeout),
             Chord((KC.C, KCMO), KC.Z),
             Chord((KC.F, KC.G), KC.Z, timeout=3 * timeout),
+            Chord((KC.F, KC.G, KC.H), KC.T, timeout=3 * timeout),
+            Chord((0, 6), KC.U, match_coord=True),
             Sequence((KC.N1, KC.N2, KC.N3), KC.Y),
             Sequence((KC.N1, KC.N2), KC.X),
             Sequence((KC.N3, KC.N4), KC.Z, timeout=2 * timeout),
@@ -434,6 +436,38 @@ class TestCombo(unittest.TestCase):
                 t_after,
             ],
             [{KC.A}, {}, {KC.Z}, {}],
+        )
+
+        keyboard.test(
+            'match: 2 combo fast',
+            [
+                (6, True),
+                (7, True),
+                (6, False),
+                (7, False),
+                3*t_after,
+                (6, True),
+                (7, True),
+                (6, False),
+                (7, False),
+                3*t_after,
+            ],
+            [{KC.Z}, {}, {KC.Z}, {}]
+        )
+
+        keyboard.test(
+            'match: partial start + match other',
+            [
+                (0, True),
+                (2, True),
+                (3, True),
+                2*t_after,
+                (0, False),
+                (2, False),
+                (3, False),
+                t_after
+            ],
+            [{KC.A}, {KC.A, KC.Z}, {KC.Z}, {}]
         )
 
     def test_sequence(self):
